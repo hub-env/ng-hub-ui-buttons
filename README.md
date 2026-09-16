@@ -15,6 +15,7 @@ This package is part of [Hub UI](https://hubui.dev/en/), a collection of Angular
 - Docs: https://hubui.dev/en/buttons/overview/
 - Live examples: https://hubui.dev/en/buttons/examples/
 - Hub UI: https://hubui.dev/en/
+- Hub UI on GitHub (issues, roadmap and contributing): https://github.com/hub-env/hub-ui
 
 ## Library Family `ng-hub-ui`
 
@@ -442,7 +443,7 @@ hub-button, [hubButton] {
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/carlos-morcillo/ng-hub-ui-buttons).
+Contributions are welcome! Please open an issue or submit a pull request on [GitHub](https://github.com/hub-env/ng-hub-ui-buttons).
 
 ### Pull Request Process
 

@@ -15,6 +15,7 @@ Este paquete forma parte de [Hub UI](https://hubui.dev/en/), una colección de l
 - Docs: https://hubui.dev/en/buttons/overview/
 - Ejemplos: https://hubui.dev/en/buttons/examples/
 - Hub UI: https://hubui.dev/en/
+- Hub UI en GitHub (incidencias, roadmap y cómo contribuir): https://github.com/hub-env/hub-ui
 
 ## Familia de librerías `ng-hub-ui`
 
@@ -438,7 +439,7 @@ hub-button, [hubButton] {
 
 ## Contribuir
 
-¡Las contribuciones son bienvenidas! Abre una issue o envía un pull request en [GitHub](https://github.com/carlos-morcillo/ng-hub-ui-buttons).
+¡Las contribuciones son bienvenidas! Abre una issue o envía un pull request en [GitHub](https://github.com/hub-env/ng-hub-ui-buttons).
 
 ### Proceso de Pull Request
 

@@ -6,10 +6,10 @@
 	"author": "Carlos Morcillo <carlos.morcillo@me.com> (https://www.carlosmorcillo.com)",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/carlos-morcillo/ng-hub-ui-buttons.git"
+		"url": "git+https://github.com/hub-env/ng-hub-ui-buttons.git"
 	},
 	"bugs": {
-		"url": "https://github.com/carlos-morcillo/ng-hub-ui-buttons/issues",
+		"url": "https://github.com/hub-env/hub-ui/issues",
 		"email": "carlos.morcillo@me.com"
 	},
 	"homepage": "https://hubui.dev/en/buttons/overview/",
