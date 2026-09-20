@@ -1,5 +1,13 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.12.2] - 2026-09-20
+
+### Changed
+
+- The npm keywords name what the package ships — `buttons`, `floating-action-button`,
+  `dropdown-menu`, `menu` — and the properties a reader filters on: `standalone`, `zoneless`,
+  `rtl`. Metadata only: no code, types or styles change.
+
 ## [22.12.1] - 2026-09-16
 
 ### Changed
