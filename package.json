@@ -21,7 +21,16 @@
 		"speed-dial",
 		"ui-component",
 		"ng-hub-ui",
-		"signals"
+		"signals",
+		"buttons",
+		"floating-action-button",
+		"dropdown-menu",
+		"menu",
+		"standalone",
+		"zoneless",
+		"rtl",
+		"angular-library",
+		"typescript"
 	],
 	"peerDependencies": {
 		"@angular/common": ">=21.0.0",
