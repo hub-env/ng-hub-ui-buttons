@@ -1,5 +1,15 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.12.3] - 2026-09-21
+
+### Fixed
+
+- **`hub-fab` no longer throws during server rendering.** With `collapseOnScroll` set, `ngOnInit`
+  subscribed to `window` without asking what platform it was on, so a server render died on the
+  missing global. The subscription is now skipped outside the browser, as the dropdown directive
+  and the speed dial already did; the collapsed state is presentational and there is nothing to
+  scroll on the server.
+
 ## [22.12.2] - 2026-09-20
 
 ### Changed

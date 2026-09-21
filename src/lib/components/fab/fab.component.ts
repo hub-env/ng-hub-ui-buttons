@@ -1,8 +1,10 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
 	ChangeDetectionStrategy,
 	Component,
 	DestroyRef,
 	OnInit,
+	PLATFORM_ID,
 	ViewEncapsulation,
 	booleanAttribute,
 	inject,
@@ -88,6 +90,7 @@ export class HubFabComponent implements OnInit {
 	protected readonly _collapsed = signal(false);
 
 	private readonly _destroyRef = inject(DestroyRef);
+	private readonly _isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
 	protected get _hostClass(): string {
 		return [
@@ -164,6 +167,10 @@ export class HubFabComponent implements OnInit {
 
 	ngOnInit(): void {
 		if (!this.collapseOnScroll()) return;
+
+		// There is no scrolling on the server and no `window` to listen on, and the
+		// collapsed state is presentational, so the server render simply skips it.
+		if (!this._isBrowser) return;
 
 		fromEvent(window, 'scroll', { passive: true })
 			.pipe(debounceTime(50), takeUntilDestroyed(this._destroyRef))
