@@ -1,5 +1,17 @@
 # Breaking Changes
 
+## [22.13.0] - 2026-09-23
+
+### Angular below 17.3.0 is no longer supported
+
+- **Change**: the `@angular/*` peer ranges move from `>=17.2.0` to `>=17.3.0`.
+
+- **Why**: Its published `.d.ts` names `InputSignalWithTransform` or `OutputEmitterRef`, which Angular did not ship until 17.3.
+
+- **Impact — an application below 17.3.0 gets a peer warning where it used to get a build error.**
+  Nothing that worked stops working: those versions never compiled against this package. Upgrade
+  Angular to 17.3.0 or stay on the previous release.
+
 ## [22.6.0] - 2026-06-30
 
 ### `iconOnly` removed
@@ -7,11 +19,13 @@
 A button now sizes to its own content, so the `iconOnly` input and the forced square layout it switched on (`:host(.hub-btn-icon)`) are gone.
 
 **Before:**
+
 ```html
 <hub-button iconOnly><i class="fa-solid fa-pen"></i></hub-button>
 ```
 
 **After:**
+
 ```html
 <button hubButton aria-label="Edit"><i class="fa-solid fa-pen"></i></button>
 ```
@@ -24,11 +38,11 @@ A button now sizes to its own content, so the `iconOnly` input and the forced sq
 
 ### `z-index` tokens renamed to the canonical `zindex` spelling
 
-| Before | After |
-|--------|-------|
-| `--hub-fab-z-index` | `--hub-fab-zindex` |
+| Before                         | After                         |
+| ------------------------------ | ----------------------------- |
+| `--hub-fab-z-index`            | `--hub-fab-zindex`            |
 | `--hub-dropdown-panel-z-index` | `--hub-dropdown-panel-zindex` |
-| `--hub-speed-dial-z-index` | `--hub-speed-dial-zindex` |
+| `--hub-speed-dial-z-index`     | `--hub-speed-dial-zindex`     |
 
 **Migration:** rename the custom property wherever you set it. The names now match the `--hub-sys-zindex-*` convention the rest of the family uses. A stylesheet left on the old spelling sets a variable nothing reads, so the component silently keeps its default stacking order — there is no error to catch it.
 
@@ -39,15 +53,15 @@ A button now sizes to its own content, so the `iconOnly` input and the forced sq
 ### Selectors renamed
 
 **Before:**
+
 ```html
-<hub-btn color="primary">Save</hub-btn>
-<button hubBtn color="primary">Save</button>
+<hub-btn color="primary">Save</hub-btn> <button hubBtn color="primary">Save</button>
 ```
 
 **After:**
+
 ```html
-<hub-button color="primary">Save</hub-button>
-<button hubButton color="primary">Save</button>
+<hub-button color="primary">Save</hub-button> <button hubButton color="primary">Save</button>
 ```
 
 **Migration:** rename the element and the attribute. The class keeps working under both names — `HubBtnComponent` and `HubBtnDirective` are still exported as deprecated aliases of `HubButtonComponent` — but the template selectors are not aliased, so markup left on `hub-btn` / `[hubBtn]` renders an unknown element or a plain button with no styling and no error.
@@ -69,18 +83,20 @@ The button's own tokens took the element's new name: `--hub-btn-padding-x` → `
 ### Speed Dial trigger slot renamed
 
 **Before:**
+
 ```html
 <hub-speed-dial>
-  <hub-btn slot="trigger">+</hub-btn>
-  ...
+	<hub-btn slot="trigger">+</hub-btn>
+	...
 </hub-speed-dial>
 ```
 
 **After:**
+
 ```html
 <hub-speed-dial>
-  <hub-btn hubTrigger>+</hub-btn>
-  ...
+	<hub-btn hubTrigger>+</hub-btn>
+	...
 </hub-speed-dial>
 ```
 
@@ -93,15 +109,15 @@ The button's own tokens took the element's new name: `--hub-btn-padding-x` → `
 `HubSpeedDialItemComponent` and `HubDropdownItemComponent` previously rendered the `icon` input value as raw text content. It now passes the value as a CSS class on an `<i>` element.
 
 **Before (emoji or ligature):**
+
 ```html
-<hub-speed-dial-item icon="✏️" label="Edit" />
-<hub-dropdown-item icon="edit">Edit</hub-dropdown-item>
+<hub-speed-dial-item icon="✏️" label="Edit" /> <hub-dropdown-item icon="edit">Edit</hub-dropdown-item>
 ```
 
 **After (icon-font class, e.g. Font Awesome):**
+
 ```html
-<hub-speed-dial-item icon="fa-solid fa-pen" label="Edit" />
-<hub-dropdown-item icon="fa-solid fa-pen">Edit</hub-dropdown-item>
+<hub-speed-dial-item icon="fa-solid fa-pen" label="Edit" /> <hub-dropdown-item icon="fa-solid fa-pen">Edit</hub-dropdown-item>
 ```
 
 **Migration:** update all `icon` bindings to pass a CSS class string compatible with your icon font. If you use a custom icon font, define the corresponding class.

@@ -1,5 +1,19 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.13.0] - 2026-09-23
+
+### Changed
+
+- **BREAKING — the Angular floor rises from `17.2.0` to `17.3.0`.** The old range was
+  measured from the source alone, and its published `.d.ts` names `InputSignalWithTransform` or `OutputEmitterRef`, which Angular did not ship until 17.3. An application below the new floor could install this
+  package and then fail to build, with an error that pointed at Angular rather than here; it now
+  gets the peer warning it should always have had. Nothing that worked stops working. See
+  `BREAKING_CHANGES.md`.
+- **The floor is proved by running it now, not only derived.** `npm run floors:matrix` builds a real
+  project pinned to the oldest Angular this package claims, installs it there, typechecks the
+  published types against that version's `@angular/*` and runs that version's linker over the
+  compiled output. It is what found this.
+
 ## [22.12.4] - 2026-09-23
 
 ### Changed
@@ -49,8 +63,9 @@
   `ng-hub-ui-ds` used and the same defect: an outline button in the default warning
   measured **2.5:1** against the page, a link button in the default info **2.9:1**. The
   slot now caps the accent's luminosity — `oklch(from var(--hub-btn-accent) min(l, .45) c
-  h)` — so a dark accent is untouched and a light one becomes legible without losing its
+h)` — so a dark accent is untouched and a light one becomes legible without losing its
   hue. Matches `ng-hub-ui-ds` 22.11.0.
+
 ## [22.11.2] - 2026-09-08
 
 ### Changed
@@ -144,7 +159,7 @@
   `loading` on the button but left the same trap everywhere else: `<hub-fab disabled>`,
   `<hub-speed-dial-item disabled>`, `<hub-dropdown-item selected>` and `closeOnSelect` on
   `[hubDropdown]` all failed with `TS2322: Type 'string' is not assignable to type
-  'boolean'`, because an attribute written without a value passes the empty string. `extended`
+'boolean'`, because an attribute written without a value passes the empty string. `extended`
   and `collapseOnScroll` on the FAB were in the same state. All of them now use
   `booleanAttribute`, so the bare form, `=""` and `[bound]="true"` are interchangeable.
   Additive: every binding that compiled before still compiles.
@@ -175,7 +190,7 @@
 - **`<button hubButton disabled>` compiles.** `disabled` and `loading` were declared as
   `input(false)` with no transform, so the bare HTML spelling of a boolean attribute — which
   passes the empty string — failed with `TS2322: Type 'string' is not assignable to type
-  'boolean'`. It failed on exactly the usage `disabled`'s own documentation promises to
+'boolean'`. It failed on exactly the usage `disabled`'s own documentation promises to
   mirror. Both now use `booleanAttribute`, so `disabled`, `disabled=""`, `[disabled]="true"`
   and `loading` all work. Additive: every binding that compiled before still compiles.
 
@@ -185,14 +200,14 @@
 
 - **A dropdown destroyed while open no longer leaves anything behind.**
 
-  Two things outlived the view that owned them. Its overlay stayed attached to the body,
-  and the directive stayed recorded as the one open dropdown — so the next dropdown to
-  open anywhere called `close()` on a destroyed instance, which emits `closed` on an
-  `OutputRef` nobody owns any more. The browser reports that as **NG0953**, and it showed
-  up in an ordinary table: open a row menu, navigate away, open another.
+    Two things outlived the view that owned them. Its overlay stayed attached to the body,
+    and the directive stayed recorded as the one open dropdown — so the next dropdown to
+    open anywhere called `close()` on a destroyed instance, which emits `closed` on an
+    `OutputRef` nobody owns any more. The browser reports that as **NG0953**, and it showed
+    up in an ordinary table: open a row menu, navigate away, open another.
 
-  Both are now torn down on destroy, and silently: calling `close()` there would emit the
-  very event that has nobody left to receive it.
+    Both are now torn down on destroy, and silently: calling `close()` there would emit the
+    very event that has nobody left to receive it.
 
 ## [22.10.0] - 2026-09-01
 
@@ -201,17 +216,17 @@
 - **`hubActionsAdapter`**, so a host library can have its row actions drawn with this
   library's button and dropdown without either package depending on the other.
 
-  It is the arrangement `hubFormControlAdapter` already uses for a table's inputs: the
-  host describes what a row offers in neutral terms — icons, labels, `disabled`, the
-  actions inside a menu — and this maps the description onto the real components. The
-  types are declared here and mirror the host's structurally, so nothing is imported
-  across the boundary and the application is the only place that knows both exist.
+    It is the arrangement `hubFormControlAdapter` already uses for a table's inputs: the
+    host describes what a row offers in neutral terms — icons, labels, `disabled`, the
+    actions inside a menu — and this maps the description onto the real components. The
+    types are declared here and mirror the host's structurally, so nothing is imported
+    across the boundary and the application is the only place that knows both exist.
 
-  Register it where the host expects it; for `ng-hub-ui-paginable`:
+    Register it where the host expects it; for `ng-hub-ui-paginable`:
 
-  ```ts
-  providers: [provideHubPaginableActions(hubActionsAdapter)];
-  ```
+    ```ts
+    providers: [provideHubPaginableActions(hubActionsAdapter)];
+    ```
 
 - **`hub-actions-cell`**, the component that adapter creates. Public because creating a
   component is the honest way to assemble `hubDropdown` — it needs a host element and an
@@ -221,10 +236,10 @@
 
 - **Only one dropdown is open at a time, however it was opened.**
 
-  Closing on click-outside already made a second one *usually* replace the first, since
-  opening it is itself a click outside the first. Usually is not a guarantee: a dropdown
-  opened from code produces no such click — a keyboard shortcut, a menu restored after a
-  re-render, a table row opening its own — and both panels stayed up.
+    Closing on click-outside already made a second one _usually_ replace the first, since
+    opening it is itself a click outside the first. Usually is not a guarantee: a dropdown
+    opened from code produces no such click — a keyboard shortcut, a menu restored after a
+    re-render, a table row opening its own — and both panels stayed up.
 
 - **A click on a row action no longer reaches whatever surrounds it.** Drawn inside a
   clickable row — a table row that opens a detail page — pressing an action navigated
