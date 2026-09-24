@@ -1,5 +1,53 @@
 # Breaking Changes
 
+## [22.15.0] - 2026-09-24
+
+### Every outline button's border takes the colour of its label
+
+- **Change**: `:host(.hub-btn-outline)` paints its border with `--hub-btn-accent-emphasis`, the
+  same token its label already used, instead of the raw `--hub-btn-accent`.
+
+- **Why**: an outline button is a label with a line around it and the two read as one mark; the
+  border being a bright accent while the label was the darker ink made every one of them look
+  like two colours. Sharing one ink also settles which rule governs it — a boundary asks 3:1 and
+  a label asks 4.5:1, so the shared colour has to meet the stricter. On the white page the
+  shipped `warning` border measured 1.63:1 and `info` 1.96:1, and no consumer could fix it from
+  outside, because the border read the accent itself.
+
+- **`light` is steered less far, and on purpose**: reaching the label's threshold on a white page
+  means becoming a mid grey, and `neutral` is already a mid grey — the two came out 32 apart in
+  RGB, which is the same button twice. `light` is a surface colour, meant for a dark header, so
+  in the outline appearance it keeps a faint mark at **2.08:1**, 163 apart from `neutral`. It
+  does not meet 1.4.11 on a light page, and it is not meant to be used on one.
+
+- **Impact**: the border of **all nine** default outline variants changes — it darkens to the ink
+  the label was always painted in. Against the white page they now measure `primary` 7.81:1,
+  `secondary` and `neutral` 7.46:1, `success` 6.91:1, `danger` 7.77:1, `warning` 7.45:1, `info`
+  6.62:1, `dark` 15.43:1, `light` 2.08:1. **No label moves**, in any accent. The solid button's
+  fill and the `soft`, `ghost` and `link` appearances are untouched. A consumer accent registered
+  through `--hub-btn-accent` follows the same derivation with no extra rule.
+
+- **What happens if you do nothing**: nothing stops compiling, and outline borders darken to
+  match their own text. A screenshot test of any outline button will differ.
+
+- **Migration**: none. To keep the raw accent on the border of a given button — accepting that it
+  may not reach 3:1, and that it will not match the label — point the border back at it:
+
+```css
+hub-button.hub-btn-outline.hub-btn-warning {
+	border-color: var(--hub-btn-accent);
+}
+```
+
+To make a pale custom accent keep a light outline the way `light` does, relax its ink ceiling in
+that appearance:
+
+```css
+hub-button.hub-btn-outline.hub-btn-brand {
+	--hub-btn-accent-emphasis: oklch(from var(--hub-btn-accent) min(l, 0.77) c h);
+}
+```
+
 ## [22.14.0] - 2026-09-23
 
 ### An open dropdown no longer closes on scroll

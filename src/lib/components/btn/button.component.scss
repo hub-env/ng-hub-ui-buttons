@@ -155,6 +155,34 @@ $hub-btn-types: primary, secondary, success, danger, warning, info, neutral, lig
 	}
 }
 
+// `light` keeps a light border, and gets its own ceiling to do it.
+//
+// The shared ceiling of 0.62 exists to make an accent carry a boundary on a light page, and it
+// does that by darkening. An accent that is near-white and has almost no chroma has nothing left
+// once it is darkened that far: it lands on the same grey `neutral` already occupies, and two of
+// the nine accents stop being distinguishable. Which is what the accent is for decides the
+// answer here — `light` is a surface colour, meant for a dark header or hero, and on a light
+// page a faint edge is what it is supposed to look like. The ceiling is only lowered from
+// "invisible" to "a hairline": enough to see the shape of the control, still plainly lighter
+// than `neutral`.
+//
+// Same `max()` shape as the base rule, so a dark theme — where the theme's own ceiling is
+// looser — leaves `light` alone entirely, which is the surface it was made for.
+// `light` keeps a light outline, border and label together.
+//
+// The emphasis window exists to make an accent carry a letter on a light page, and it does that
+// by darkening. An accent that is near-white and has almost no chroma has nothing left once it
+// is darkened that far: it lands on the same grey `neutral` already occupies, and two of the
+// nine stop being distinguishable. What the accent is for decides it — `light` is a surface
+// colour, for a dark header or hero, and on a light page a faint mark is what it is supposed to
+// look like. It is not readable there, and it is not meant to be used there.
+//
+// Scoped to the outline appearance on purpose: `soft`, `ghost` and `link` paint their label on
+// a light fill of their own, where a pale ink would be a bug rather than a statement of intent.
+:host(.hub-btn-outline.hub-btn-light) {
+	--hub-btn-accent-emphasis: oklch(from var(--hub-btn-accent) min(l, 0.77) c h);
+}
+
 // ── Appearance rules (accent-agnostic — consume only the local slot) ──────
 :host(.hub-btn-solid) {
 	@include hub-btn-variant-rules(
@@ -169,10 +197,13 @@ $hub-btn-types: primary, secondary, success, danger, warning, info, neutral, lig
 	);
 }
 
+// An outline button is a label with a line around it, and the two are one mark: the border takes
+// the same ink as the text. That also settles which rule governs — a boundary asks 3:1 and a
+// label asks 4.5:1, and a colour shared by both has to satisfy the stricter of the two.
 :host(.hub-btn-outline) {
 	@include hub-btn-variant-rules(
-		$border: var(--hub-btn-accent),
-		$hover-border: var(--hub-btn-accent),
+		$border: var(--hub-btn-accent-emphasis),
+		$hover-border: var(--hub-btn-accent-emphasis),
 		$active-bg: color-mix(in oklch, var(--hub-btn-accent-subtle) 70%, var(--hub-btn-accent)),
 		$active-border: var(--hub-btn-accent),
 		$active-color: var(--hub-btn-accent-emphasis)

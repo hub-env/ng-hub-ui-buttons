@@ -1,5 +1,41 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.15.0] - 2026-09-24
+
+### Fixed
+
+- **BREAKING — an outline button is drawn in one ink.** The border was painted with the raw
+  accent while the label was already the emphasis ink, so every outline button came out in two
+  shades of the same colour. The border now takes the label's ink, which also settles which rule
+  governs it: a boundary asks 3:1 and a label asks 4.5:1, and a colour shared by both has to
+  satisfy the stricter of the two. It fixes an accessibility failure on the way — measured
+  against the white page the shipped `warning` border scored 1.63:1 and `info` 1.96:1, where
+  WCAG 1.4.11 asks 3:1.
+- **Every outline border changes colour**, not only the two that failed: the label was always
+  the darker ink and it is the border that moves to meet it. Against the white page the nine now
+  measure `primary` 7.81:1, `secondary` and `neutral` 7.46:1, `success` 6.91:1, `danger` 7.77:1,
+  `warning` 7.45:1, `info` 6.62:1, `dark` 15.43:1. **The label itself does not move**, in any
+  accent, and neither does the solid button's fill or any other appearance.
+- **`light` is the exception, and keeps a light outline.** Steered into the same window it
+  becomes a mid grey, and `neutral` is already a mid grey — the two ended up 32 apart in RGB,
+  the same button twice, one of the nine accents gone. `light` is a surface colour, made for a
+  dark header, so in the outline appearance it keeps a faint mark at **2.08:1**, 163 apart from
+  `neutral`. It is not readable on a light page and it is not meant to be used on one. Only the
+  outline appearance is scoped this way: `soft`, `ghost` and `link` paint their label on a light
+  fill of their own, where a pale ink would be a bug rather than a statement of intent.
+
+### Added
+
+- A suite that resolves the outline ink out of the compiled stylesheet — as a browser would —
+  and checks three things: that border and label are the same colour in every accent, resting
+  and hovered; that the eight boundary accents clear 3:1; and that `light` stays both visible
+  and far enough from `neutral` to be told apart.
+- Two holes in that resolver, found by the colour it reported for a button nobody was painting.
+  It read only the shared token block, so a rule an accent writes for itself was invisible; and
+  it split declarations without stripping comments, which Sass keeps in its output, so the
+  token behind a comment went missing. Either one turns a contrast test green over a colour the
+  browser never renders.
+
 ## [22.14.0] - 2026-09-23
 
 ### Fixed

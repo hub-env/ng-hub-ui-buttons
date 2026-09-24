@@ -299,6 +299,11 @@ All visual properties are CSS custom properties scoped with `:where()` (zero spe
 --hub-button-spinner: url('data:image/svg+xml,…'); /* the loading glyph — swap for any SVG */
 --hub-button-disabled-opacity: var(--hub-sys-opacity-disabled, 0.65);
 
+/* Outline border — the accent steered into a lightness window so the edge clears 3:1 (WCAG 1.4.11) */
+--hub-btn-border-lightness-min: var(--hub-sys-emphasis-lightness-min, 0);
+--hub-btn-border-lightness-max: max(var(--hub-sys-emphasis-lightness-max, 0.45), 0.62);
+--hub-btn-accent-border: oklch(from var(--hub-btn-accent) clamp(var(--hub-btn-border-lightness-min), l, var(--hub-btn-border-lightness-max)) c h);
+
 /* Button interaction slots (overridable hover / pressed families) */
 --hub-btn-hover-bg: var(--hub-btn-accent-subtle);
 --hub-btn-hover-border: transparent;

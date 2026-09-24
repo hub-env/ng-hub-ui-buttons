@@ -300,6 +300,11 @@ Todas las propiedades visuales son CSS custom properties con `:where()` (especif
 --hub-button-spinner: url('data:image/svg+xml,…'); /* el glifo de carga — cámbialo por cualquier SVG */
 --hub-button-disabled-opacity: var(--hub-sys-opacity-disabled, 0.65);
 
+/* Borde del botón de contorno — el acento llevado a una ventana de luminosidad para que el borde llegue a 3:1 (WCAG 1.4.11) */
+--hub-btn-border-lightness-min: var(--hub-sys-emphasis-lightness-min, 0);
+--hub-btn-border-lightness-max: max(var(--hub-sys-emphasis-lightness-max, 0.45), 0.62);
+--hub-btn-accent-border: oklch(from var(--hub-btn-accent) clamp(var(--hub-btn-border-lightness-min), l, var(--hub-btn-border-lightness-max)) c h);
+
 /* Slots de interacción del botón (familias hover / pressed reconfigurables) */
 --hub-btn-hover-bg: var(--hub-btn-accent-subtle);
 --hub-btn-hover-border: transparent;
