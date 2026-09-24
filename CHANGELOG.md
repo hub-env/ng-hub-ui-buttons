@@ -1,5 +1,27 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.14.0] - 2026-09-23
+
+### Fixed
+
+- **A dropdown panel that does not fit where it was asked to go now flips instead of being drawn
+  off-screen.** The directive handed the overlay a single candidate position, so "the first
+  position that fits" had nothing to fall back on and the panel was placed outside the viewport
+  anyway. It now hands the whole chain: the requested placement first — still used whenever it
+  fits, so nothing moves that did not have to — then the same panel reflected across the edge it
+  would have overflowed. Both axes flip, `bottom` to `top` and `end` to `start`, and the inline
+  ones are logical, so an RTL trigger flips towards the edge it actually has room on. A per-row
+  menu at the bottom of a table no longer needs the consuming application to measure the button
+  and ask for `top-end` itself.
+
+### Changed
+
+- **An open panel no longer closes when the page scrolls: it follows its trigger.** Closing was
+  how the panel used to stay aligned, from before the overlay could re-anchor one. It can, so the
+  panel now re-applies its position on scroll, on a window resize and whenever the trigger's own
+  box moves — and re-decides, each time, whether it still fits where it is. See
+  `BREAKING_CHANGES.md`.
+
 ## [22.13.0] - 2026-09-23
 
 ### Changed

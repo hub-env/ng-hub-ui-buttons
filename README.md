@@ -56,7 +56,7 @@ This library is part of the **ng-hub-ui** ecosystem:
 - **Four sizes** — `sm`, `md`, `lg`, `xl` with proportional padding and font scaling.
 - **FAB with nine positions** — fixed-viewport placement at any corner, edge-center or screen-center via CSS logical properties (RTL-ready).
 - **Speed Dial** — expandable FAB menu with `isOpen` two-way model, directional expansion and Escape close.
-- **Overlay Dropdown** — attaches any `<ng-template>` to any trigger; eight placement options, click or hover trigger, click-outside and scroll close, no CDK dependency.
+- **Overlay Dropdown** — attaches any `<ng-template>` to any trigger; eight placement options that flip to the opposite edge when the panel does not fit, click or hover trigger, click-outside close, no CDK dependency.
 - **Cross-library row actions** — `hubActionsAdapter` draws another library's row buttons and menus with these components, with no dependency in either direction.
 - **Extensible SCSS token system** — `:where()` zero-specificity defaults mean any consumer rule wins without `!important`. Public mixin API lets you register custom semantic colors.
 
@@ -75,6 +75,7 @@ npm install ng-hub-ui-buttons ng-hub-ui-utils
 > ```bash
 > npm install ng-hub-ui-ds
 > ```
+>
 > ```css
 > @import 'ng-hub-ui-ds/styles/tokens/hub-tokens.css';
 > ```
@@ -85,27 +86,27 @@ All exports are standalone — import only what you use:
 
 ```typescript
 import {
-    HubButtonComponent,
-    HubDropdownDirective,
-    HubDropdownPanelComponent,
-    HubDropdownItemComponent
+	HubButtonComponent,
+	HubDropdownDirective,
+	HubDropdownPanelComponent,
+	HubDropdownItemComponent
 } from 'ng-hub-ui-buttons';
 
 @Component({
-    standalone: true,
-    imports: [HubButtonComponent, HubDropdownDirective, HubDropdownPanelComponent, HubDropdownItemComponent],
-    template: `
-        <hub-button [hubDropdown]="menu" placement="bottom-start">Actions</hub-button>
+	standalone: true,
+	imports: [HubButtonComponent, HubDropdownDirective, HubDropdownPanelComponent, HubDropdownItemComponent],
+	template: `
+		<hub-button [hubDropdown]="menu" placement="bottom-start">Actions</hub-button>
 
-        <ng-template #menu>
-            <hub-dropdown-panel>
-                <hub-dropdown-item (itemClick)="edit()">Edit</hub-dropdown-item>
-                <hub-dropdown-item color="danger" (itemClick)="delete()">Delete</hub-dropdown-item>
-            </hub-dropdown-panel>
-        </ng-template>
-    `
+		<ng-template #menu>
+			<hub-dropdown-panel>
+				<hub-dropdown-item (itemClick)="edit()">Edit</hub-dropdown-item>
+				<hub-dropdown-item color="danger" (itemClick)="delete()">Delete</hub-dropdown-item>
+			</hub-dropdown-panel>
+		</ng-template>
+	`
 })
-export class MyComponent { }
+export class MyComponent {}
 ```
 
 ---
@@ -116,13 +117,13 @@ export class MyComponent { }
 
 A single component with a dual selector — use it as an **element** or as an **attribute** on a native host. Both forms share the same inputs and render the loading spinner.
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `variant` | `solid \| outline \| soft \| ghost \| link` | `solid` | Visual style |
-| `color` | `HubSemanticColor` — the nine built-ins (`primary \| secondary \| success \| danger \| warning \| info \| neutral \| light \| dark`) **or any custom accent** registered with `hub-btn-color-rules()` | `primary` | Semantic colour (open set) |
-| `size` | `sm \| md \| lg \| xl` | `md` | Size scale |
-| `loading` | `boolean` | `false` | Shows the spinner and marks the button **busy + disabled** — non-focusable, inert to pointer/keyboard, reflects `aria-busy="true"` and the `disabled` attribute |
-| `disabled` | `boolean` | `false` | Disables the button and sets the `disabled` attribute |
+| Input      | Type                                                                                                                                                                                                  | Default   | Description                                                                                                                                                     |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`  | `solid \| outline \| soft \| ghost \| link`                                                                                                                                                           | `solid`   | Visual style                                                                                                                                                    |
+| `color`    | `HubSemanticColor` — the nine built-ins (`primary \| secondary \| success \| danger \| warning \| info \| neutral \| light \| dark`) **or any custom accent** registered with `hub-btn-color-rules()` | `primary` | Semantic colour (open set)                                                                                                                                      |
+| `size`     | `sm \| md \| lg \| xl`                                                                                                                                                                                | `md`      | Size scale                                                                                                                                                      |
+| `loading`  | `boolean`                                                                                                                                                                                             | `false`   | Shows the spinner and marks the button **busy + disabled** — non-focusable, inert to pointer/keyboard, reflects `aria-busy="true"` and the `disabled` attribute |
+| `disabled` | `boolean`                                                                                                                                                                                             | `false`   | Disables the button and sets the `disabled` attribute                                                                                                           |
 
 ```html
 <!-- Element form -->
@@ -148,22 +149,23 @@ While `loading` is `true` the button shows an animated spinner and is fully iner
 The spinner glyph is the swappable `--hub-button-spinner` token (a `url("data:image/svg+xml,…")` painted through `mask`, so it inherits the button's text colour). Point it at any SVG to replace the loader, and tune `--hub-button-spinner-duration` / `--hub-button-spinner-size`:
 
 ```css
-hub-button, [hubButton] {
-    --hub-button-spinner: url("data:image/svg+xml,%3Csvg …%3E"); /* your loader */
-    --hub-button-spinner-duration: 1s;
+hub-button,
+[hubButton] {
+	--hub-button-spinner: url('data:image/svg+xml,%3Csvg …%3E'); /* your loader */
+	--hub-button-spinner-duration: 1s;
 }
 ```
 
 ### `HubFabComponent` — `<hub-fab>`
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `position` | `top-start \| top-center \| top-end \| middle-start \| center \| middle-end \| bottom-start \| bottom-center \| bottom-end` | `bottom-end` | Fixed viewport position |
-| `size` | `mini \| standard \| large` | `standard` | Button size |
-| `color` | semantic | `primary` | Colour variant |
-| `extended` | `boolean` | `false` | Renders the pill variant with a projected label beside the icon |
-| `collapseOnScroll` | `boolean` | `false` | Collapses an extended FAB to icon-only while the page is scrolled past 50px, and expands it again near the top |
-| `disabled` | `boolean` | `false` | Disables the button |
+| Input              | Type                                                                                                                        | Default      | Description                                                                                                    |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------- |
+| `position`         | `top-start \| top-center \| top-end \| middle-start \| center \| middle-end \| bottom-start \| bottom-center \| bottom-end` | `bottom-end` | Fixed viewport position                                                                                        |
+| `size`             | `mini \| standard \| large`                                                                                                 | `standard`   | Button size                                                                                                    |
+| `color`            | semantic                                                                                                                    | `primary`    | Colour variant                                                                                                 |
+| `extended`         | `boolean`                                                                                                                   | `false`      | Renders the pill variant with a projected label beside the icon                                                |
+| `collapseOnScroll` | `boolean`                                                                                                                   | `false`      | Collapses an extended FAB to icon-only while the page is scrolled past 50px, and expands it again near the top |
+| `disabled`         | `boolean`                                                                                                                   | `false`      | Disables the button                                                                                            |
 
 Output: `fabClick`.
 
@@ -171,23 +173,23 @@ Content slots: `[slot=icon]` always renders, `[slot=label]` only in the extended
 
 ```html
 <hub-fab extended aria-label="New document">
-    <i slot="icon" class="fa-solid fa-plus"></i>
-    <span slot="label">New document</span>
+	<i slot="icon" class="fa-solid fa-plus"></i>
+	<span slot="label">New document</span>
 </hub-fab>
 ```
 
-> The host element *is* the control, so it advertises `role="button"`, a focusable `tabindex` and Enter/Space activation. Don't nest it inside another interactive element, and give it an `aria-label` when it only holds an icon.
+> The host element _is_ the control, so it advertises `role="button"`, a focusable `tabindex` and Enter/Space activation. Don't nest it inside another interactive element, and give it an `aria-label` when it only holds an icon.
 
 ### `HubSpeedDialComponent` — `<hub-speed-dial>`
 
-| Input / Output | Type | Default | Description |
-|---|---|---|---|
-| `isOpen` | `model(false)` | `false` | Two-way binding for open/closed state |
-| `position` | same as FAB | `bottom-end` | Fixed viewport position |
-| `size` | `mini \| standard \| large` | `standard` | Trigger button size |
-| `color` | semantic | `primary` | Trigger button colour |
-| `direction` | `up \| down \| left \| right` | `up` | Direction in which action items expand |
-| `trigger` | `click \| hover` | `click` | Interaction that opens the dial |
+| Input / Output | Type                          | Default      | Description                            |
+| -------------- | ----------------------------- | ------------ | -------------------------------------- |
+| `isOpen`       | `model(false)`                | `false`      | Two-way binding for open/closed state  |
+| `position`     | same as FAB                   | `bottom-end` | Fixed viewport position                |
+| `size`         | `mini \| standard \| large`   | `standard`   | Trigger button size                    |
+| `color`        | semantic                      | `primary`    | Trigger button colour                  |
+| `direction`    | `up \| down \| left \| right` | `up`         | Direction in which action items expand |
+| `trigger`      | `click \| hover`              | `click`      | Interaction that opens the dial        |
 
 Outputs: `opened`, `closed`, plus `isOpenChange` from the two-way `isOpen` model. Methods: `open()`, `close()`, `toggle()`. Closes on Escape.
 
@@ -195,37 +197,37 @@ Use `hubTrigger` on the element projected as the trigger button:
 
 ```html
 <hub-speed-dial>
-    <hub-button hubTrigger color="primary"><i class="fa-solid fa-plus"></i></hub-button>
-    <hub-speed-dial-item icon="fa-solid fa-pen" label="Edit" (itemClick)="edit()" />
-    <hub-speed-dial-item icon="fa-solid fa-trash" label="Delete" color="danger" (itemClick)="delete()" />
+	<hub-button hubTrigger color="primary"><i class="fa-solid fa-plus"></i></hub-button>
+	<hub-speed-dial-item icon="fa-solid fa-pen" label="Edit" (itemClick)="edit()" />
+	<hub-speed-dial-item icon="fa-solid fa-trash" label="Delete" color="danger" (itemClick)="delete()" />
 </hub-speed-dial>
 ```
 
 ### `HubSpeedDialItemComponent` — `<hub-speed-dial-item>`
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `icon` | `string` | — | CSS class(es) applied to an `<i>` element (e.g. `fa-solid fa-pen`) |
-| `label` | `string` | — | Tooltip label shown beside the item |
-| `color` | semantic \| `default` | `default` | Item button colour; `default` keeps the neutral appearance |
-| `disabled` | `boolean` | `false` | Disables the item |
+| Input      | Type                  | Default   | Description                                                        |
+| ---------- | --------------------- | --------- | ------------------------------------------------------------------ |
+| `icon`     | `string`              | —         | CSS class(es) applied to an `<i>` element (e.g. `fa-solid fa-pen`) |
+| `label`    | `string`              | —         | Tooltip label shown beside the item                                |
+| `color`    | semantic \| `default` | `default` | Item button colour; `default` keeps the neutral appearance         |
+| `disabled` | `boolean`             | `false`   | Disables the item                                                  |
 
 Output: `itemClick`.
 
 ### `HubDropdownDirective` — `[hubDropdown]`
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `hubDropdown` | `TemplateRef` | — | Panel template to render in the overlay (required) |
-| `placement` | `bottom-start \| bottom \| bottom-end \| top-start \| top \| top-end \| start \| end` | `bottom-start` | Overlay position relative to the trigger |
-| `trigger` | `click \| hover` | `click` | Event that opens the dropdown |
-| `closeOnSelect` | `boolean` | `true` | Close when the user clicks inside the panel |
-| `disabled` | `boolean` | `false` | Prevents opening |
-| `offsetY` | `number` | `4` | Gap in px between trigger and panel |
-| `panelClass` | `string` | `''` | Extra CSS class added to the overlay panel |
-| `isOpen` | `model(false)` | — | Two-way open state |
+| Input           | Type                                                                                  | Default        | Description                                                                                                                                                                                                                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `hubDropdown`   | `TemplateRef`                                                                         | —              | Panel template to render in the overlay (required)                                                                                                                                                                                                                                                     |
+| `placement`     | `bottom-start \| bottom \| bottom-end \| top-start \| top \| top-end \| start \| end` | `bottom-start` | Preferred overlay position relative to the trigger. Used whenever the panel fits there; otherwise it flips to the opposite edge — `bottom` to `top`, `end` to `start` — on whichever axis overflowed. `start` and `end` are logical, so an RTL trigger flips towards the edge it actually has room on. |
+| `trigger`       | `click \| hover`                                                                      | `click`        | Event that opens the dropdown                                                                                                                                                                                                                                                                          |
+| `closeOnSelect` | `boolean`                                                                             | `true`         | Close when the user clicks inside the panel                                                                                                                                                                                                                                                            |
+| `disabled`      | `boolean`                                                                             | `false`        | Prevents opening                                                                                                                                                                                                                                                                                       |
+| `offsetY`       | `number`                                                                              | `4`            | Gap in px between trigger and panel                                                                                                                                                                                                                                                                    |
+| `panelClass`    | `string`                                                                              | `''`           | Extra CSS class added to the overlay panel                                                                                                                                                                                                                                                             |
+| `isOpen`        | `model(false)`                                                                        | —              | Two-way open state                                                                                                                                                                                                                                                                                     |
 
-Outputs: `opened`, `closed`. Methods: `open()`, `close()`, `toggle()`. Closes on Escape, a click outside and scroll. Only one dropdown is open at a time: opening any closes whichever was already open, however it was opened.
+Outputs: `opened`, `closed`. Methods: `open()`, `close()`, `toggle()`. Closes on Escape and on a click outside. An open panel stays open while the page moves and re-anchors to its trigger — on a scroll, on a window resize, and when the trigger itself moves — re-deciding each time whether it still fits where it is. Only one dropdown is open at a time: opening any closes whichever was already open, however it was opened.
 
 ### `HubDropdownPanelComponent` — `<hub-dropdown-panel>`
 
@@ -233,12 +235,12 @@ Container for dropdown content. Accepts a `color` input for a semantic accent bo
 
 ### `HubDropdownItemComponent` — `<hub-dropdown-item>`
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `color` | semantic \| `default` | `default` | Text colour variant |
-| `icon` | `string` | — | CSS class(es) applied to an `<i>` element before the label |
-| `disabled` | `boolean` | `false` | Prevents click and dims the item |
-| `selected` | `boolean` | `false` | Shows a checkmark indicator |
+| Input      | Type                  | Default   | Description                                                |
+| ---------- | --------------------- | --------- | ---------------------------------------------------------- |
+| `color`    | semantic \| `default` | `default` | Text colour variant                                        |
+| `icon`     | `string`              | —         | CSS class(es) applied to an `<i>` element before the label |
+| `disabled` | `boolean`             | `false`   | Prevents click and dims the item                           |
+| `selected` | `boolean`             | `false`   | Shows a checkmark indicator                                |
 
 Output: `itemClick`.
 
@@ -264,7 +266,7 @@ import { provideHubPaginableActions } from 'ng-hub-ui-paginable';
 import { hubActionsAdapter } from 'ng-hub-ui-buttons';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHubPaginableActions(hubActionsAdapter)]
+	providers: [provideHubPaginableActions(hubActionsAdapter)]
 };
 ```
 
@@ -284,62 +286,62 @@ All visual properties are CSS custom properties scoped with `:where()` (zero spe
 
 ```css
 /* Button */
---hub-button-padding-x:         var(--hub-ref-space-3, 1rem);
---hub-button-padding-y:         var(--hub-ref-space-2, 0.5rem);
---hub-button-border-radius:     var(--hub-sys-radius-md, 0.375rem);
---hub-button-border-width:      1.5px;
---hub-button-font-size:         var(--hub-ref-font-size-base, 1rem);
---hub-button-font-weight:       var(--hub-ref-font-weight-medium, 500);
---hub-button-gap:               var(--hub-ref-space-2, 0.5rem);
---hub-button-transition:        var(--hub-sys-transition-fast, all 0.15s ease-in-out);
---hub-button-spinner-size:      0.875em;
---hub-button-spinner-duration:  0.7s;
---hub-button-spinner:           url("data:image/svg+xml,…"); /* the loading glyph — swap for any SVG */
---hub-button-disabled-opacity:  var(--hub-sys-opacity-disabled, 0.65);
+--hub-button-padding-x: var(--hub-ref-space-3, 1rem);
+--hub-button-padding-y: var(--hub-ref-space-2, 0.5rem);
+--hub-button-border-radius: var(--hub-sys-radius-md, 0.375rem);
+--hub-button-border-width: 1.5px;
+--hub-button-font-size: var(--hub-ref-font-size-base, 1rem);
+--hub-button-font-weight: var(--hub-ref-font-weight-medium, 500);
+--hub-button-gap: var(--hub-ref-space-2, 0.5rem);
+--hub-button-transition: var(--hub-sys-transition-fast, all 0.15s ease-in-out);
+--hub-button-spinner-size: 0.875em;
+--hub-button-spinner-duration: 0.7s;
+--hub-button-spinner: url('data:image/svg+xml,…'); /* the loading glyph — swap for any SVG */
+--hub-button-disabled-opacity: var(--hub-sys-opacity-disabled, 0.65);
 
 /* Button interaction slots (overridable hover / pressed families) */
---hub-btn-hover-bg:       var(--hub-btn-accent-subtle);
---hub-btn-hover-border:   transparent;
---hub-btn-hover-color:    var(--hub-btn-accent-emphasis);
---hub-btn-active-bg:      color-mix(in oklch, var(--hub-btn-accent) 70%, var(--hub-sys-color-ink, #212529));
---hub-btn-active-border:  transparent;
---hub-btn-active-color:   var(--hub-btn-accent-on);
+--hub-btn-hover-bg: var(--hub-btn-accent-subtle);
+--hub-btn-hover-border: transparent;
+--hub-btn-hover-color: var(--hub-btn-accent-emphasis);
+--hub-btn-active-bg: color-mix(in oklch, var(--hub-btn-accent) 70%, var(--hub-sys-color-ink, #212529));
+--hub-btn-active-border: transparent;
+--hub-btn-active-color: var(--hub-btn-accent-on);
 
 /* FAB */
---hub-fab-size-mini:          2.5rem;
---hub-fab-size-standard:      3.5rem;
---hub-fab-size-large:         4.5rem;
---hub-fab-border-radius:      50%;
---hub-fab-shadow:             var(--hub-sys-shadow-md, 0 0.5rem 1rem rgba(0, 0, 0, 0.15));
---hub-fab-shadow-hover:       var(--hub-sys-shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.175));
---hub-fab-offset:             var(--hub-ref-space-3, 1rem);
---hub-fab-zindex:             var(--hub-sys-zindex-fixed, 1030);
---hub-fab-transition:         box-shadow 0.2s ease, transform 0.15s ease;
---hub-fab-extended-height:    3.5rem;
---hub-fab-extended-radius:    1.75rem;
+--hub-fab-size-mini: 2.5rem;
+--hub-fab-size-standard: 3.5rem;
+--hub-fab-size-large: 4.5rem;
+--hub-fab-border-radius: 50%;
+--hub-fab-shadow: var(--hub-sys-shadow-md, 0 0.5rem 1rem rgba(0, 0, 0, 0.15));
+--hub-fab-shadow-hover: var(--hub-sys-shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.175));
+--hub-fab-offset: var(--hub-ref-space-3, 1rem);
+--hub-fab-zindex: var(--hub-sys-zindex-fixed, 1030);
+--hub-fab-transition: box-shadow 0.2s ease, transform 0.15s ease;
+--hub-fab-extended-height: 3.5rem;
+--hub-fab-extended-radius: 1.75rem;
 --hub-fab-extended-padding-x: 1.25rem;
 
 /* Speed Dial */
---hub-speed-dial-gap:         0.625rem;
---hub-speed-dial-zindex:      var(--hub-sys-zindex-fixed, 1030);
---hub-speed-dial-animation:   0.2s ease;
+--hub-speed-dial-gap: 0.625rem;
+--hub-speed-dial-zindex: var(--hub-sys-zindex-fixed, 1030);
+--hub-speed-dial-animation: 0.2s ease;
 
 /* Dropdown panel */
---hub-dropdown-panel-min-width:      11.25rem;
---hub-dropdown-panel-max-height:     20rem;
---hub-dropdown-panel-padding-y:      var(--hub-ref-space-1, 0.25rem);
---hub-dropdown-panel-bg:             var(--hub-sys-color-surface-default, #ffffff);
---hub-dropdown-panel-border-color:   var(--hub-sys-color-border-subtle, #dee2e6);
---hub-dropdown-panel-border-radius:  var(--hub-sys-radius-md, 0.375rem);
---hub-dropdown-panel-shadow:         var(--hub-sys-shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.175));
---hub-dropdown-panel-zindex:        var(--hub-sys-zindex-dropdown, 1000);
+--hub-dropdown-panel-min-width: 11.25rem;
+--hub-dropdown-panel-max-height: 20rem;
+--hub-dropdown-panel-padding-y: var(--hub-ref-space-1, 0.25rem);
+--hub-dropdown-panel-bg: var(--hub-sys-color-surface-default, #ffffff);
+--hub-dropdown-panel-border-color: var(--hub-sys-color-border-subtle, #dee2e6);
+--hub-dropdown-panel-border-radius: var(--hub-sys-radius-md, 0.375rem);
+--hub-dropdown-panel-shadow: var(--hub-sys-shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.175));
+--hub-dropdown-panel-zindex: var(--hub-sys-zindex-dropdown, 1000);
 
 /* Dropdown item */
---hub-dropdown-item-padding-x:          var(--hub-ref-space-3, 1rem);
---hub-dropdown-item-padding-y:          var(--hub-ref-space-2, 0.5rem);
---hub-dropdown-item-hover-bg:           var(--hub-sys-color-surface-subtle, #f8f9fa);
---hub-dropdown-item-border-radius:      var(--hub-sys-radius-sm, 0.25rem);
---hub-dropdown-item-disabled-opacity:   0.45;
+--hub-dropdown-item-padding-x: var(--hub-ref-space-3, 1rem);
+--hub-dropdown-item-padding-y: var(--hub-ref-space-2, 0.5rem);
+--hub-dropdown-item-hover-bg: var(--hub-sys-color-surface-subtle, #f8f9fa);
+--hub-dropdown-item-border-radius: var(--hub-sys-radius-sm, 0.25rem);
+--hub-dropdown-item-disabled-opacity: 0.45;
 ```
 
 Semantic colours resolve through `--hub-sys-color-{variant}-*` tokens from `ng-hub-ui-ds`.
@@ -364,17 +366,17 @@ type-checks (the `color` input is an open set):
 
 ```scss
 :root {
-    --hub-sys-color-brand: #ff6b00; // the single accent — that's all it needs
+	--hub-sys-color-brand: #ff6b00; // the single accent — that's all it needs
 }
 
-hub-button, [hubButton] {
-    @include hub.hub-btn-color-rules('brand');
+hub-button,
+[hubButton] {
+	@include hub.hub-btn-color-rules('brand');
 }
 ```
 
 ```html
-<hub-button variant="solid" color="brand">Brand</hub-button>
-<hub-button variant="outline" color="brand">Brand</hub-button>
+<hub-button variant="solid" color="brand">Brand</hub-button> <hub-button variant="outline" color="brand">Brand</hub-button>
 ```
 
 ### Create a fully custom variant
@@ -385,16 +387,17 @@ every colour reads the local `--hub-btn-accent*` slot family, so it stays
 accent-agnostic. Override only the values that differ:
 
 ```scss
-hub-button, [hubButton] {
-    &.hub-btn-inverted.hub-btn-brand {
-        @include hub.hub-btn-variant-rules(
-            $bg:          var(--hub-btn-accent-on),
-            $color:       var(--hub-btn-accent),
-            $border:      var(--hub-btn-accent),
-            $hover-bg:    var(--hub-btn-accent),
-            $hover-color: var(--hub-btn-accent-on)
-        );
-    }
+hub-button,
+[hubButton] {
+	&.hub-btn-inverted.hub-btn-brand {
+		@include hub.hub-btn-variant-rules(
+			$bg: var(--hub-btn-accent-on),
+			$color: var(--hub-btn-accent),
+			$border: var(--hub-btn-accent),
+			$hover-bg: var(--hub-btn-accent),
+			$hover-color: var(--hub-btn-accent-on)
+		);
+	}
 }
 ```
 
@@ -416,16 +419,16 @@ hub-button, [hubButton] {
 
 ### Available mixins
 
-| Mixin | Context | Description |
-|---|---|---|
-| `hub-btn-variant-rules($bg, $color, $border, $hover-*, $active-*, …)` | inside a `hub-button, [hubButton]` variant selector | Generic primitive — every appearance property as a **named** param (no positional `$type`) |
-| `hub-btn-color-rules($type)` | global `hub-button, [hubButton]` block | Registers one custom accent (`--hub-btn-accent` → `--hub-sys-color-$type`); all five appearances derive from it |
-| `hub-btn-theme($accent, $border-radius, $padding-x, $padding-y, $font-size)` | any selector holding buttons | One-call token theming — every parameter optional, only the ones you pass are emitted |
-| `hub-fab-color($type)` | root | Global `.hub-fab-{type}` color rule |
-| `hub-dropdown-panel-color($type)` | root | Global color rule for `hub-dropdown-panel` |
-| `hub-dropdown-panel-color-rules($type)` | inside `hub-dropdown-panel` selector | CSS properties only — bring your own selector |
-| `hub-dropdown-item-color($type)` | root | Global color rule for `hub-dropdown-item` |
-| `hub-dropdown-item-color-rules($type)` | inside `.hub-dropdown-item__inner` selector | CSS properties only — bring your own selector |
+| Mixin                                                                        | Context                                             | Description                                                                                                     |
+| ---------------------------------------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `hub-btn-variant-rules($bg, $color, $border, $hover-*, $active-*, …)`        | inside a `hub-button, [hubButton]` variant selector | Generic primitive — every appearance property as a **named** param (no positional `$type`)                      |
+| `hub-btn-color-rules($type)`                                                 | global `hub-button, [hubButton]` block              | Registers one custom accent (`--hub-btn-accent` → `--hub-sys-color-$type`); all five appearances derive from it |
+| `hub-btn-theme($accent, $border-radius, $padding-x, $padding-y, $font-size)` | any selector holding buttons                        | One-call token theming — every parameter optional, only the ones you pass are emitted                           |
+| `hub-fab-color($type)`                                                       | root                                                | Global `.hub-fab-{type}` color rule                                                                             |
+| `hub-dropdown-panel-color($type)`                                            | root                                                | Global color rule for `hub-dropdown-panel`                                                                      |
+| `hub-dropdown-panel-color-rules($type)`                                      | inside `hub-dropdown-panel` selector                | CSS properties only — bring your own selector                                                                   |
+| `hub-dropdown-item-color($type)`                                             | root                                                | Global color rule for `hub-dropdown-item`                                                                       |
+| `hub-dropdown-item-color-rules($type)`                                       | inside `.hub-dropdown-item__inner` selector         | CSS properties only — bring your own selector                                                                   |
 
 ---
 
@@ -433,11 +436,11 @@ hub-button, [hubButton] {
 
 `ng-hub-ui-dropdown` is deprecated. Replace:
 
-| Old | New |
-|-----|-----|
-| `HubDropdownModule` | `HubDropdownDirective` + `HubDropdownPanelComponent` |
-| `<hub-dropdown>` | `[hubDropdown]="tpl"` on any trigger + `<ng-template #tpl>` |
-| `<hub-dropdown-item>` | `<hub-dropdown-item>` (same selector, new package) |
+| Old                   | New                                                         |
+| --------------------- | ----------------------------------------------------------- |
+| `HubDropdownModule`   | `HubDropdownDirective` + `HubDropdownPanelComponent`        |
+| `<hub-dropdown>`      | `[hubDropdown]="tpl"` on any trigger + `<ng-template #tpl>` |
+| `<hub-dropdown-item>` | `<hub-dropdown-item>` (same selector, new package)          |
 
 ---
 

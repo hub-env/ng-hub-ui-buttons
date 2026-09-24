@@ -17,8 +17,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Subscription, fromEvent } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { OverlayService } from 'ng-hub-ui-utils';
-import type { OverlayRef, ConnectionPosition } from 'ng-hub-ui-utils';
+import type { OverlayRef } from 'ng-hub-ui-utils';
 import { HubDropdownPlacement } from '../models/button.types';
+import { hubDropdownPositions } from './dropdown-positions';
 
 /**
  * The one dropdown currently open, anywhere on the page.
@@ -53,6 +54,12 @@ let openDropdown: HubDropdownDirective | null = null;
 export class HubDropdownDirective {
 	/** The ng-template to render inside the overlay panel. */
 	tpl = input.required<TemplateRef<any>>({ alias: 'hubDropdown' });
+	/**
+	 * Where the panel goes when it fits there, which is the only promise a placement can keep:
+	 * a panel drawn outside the viewport is unusable whatever the consumer asked for. When it
+	 * does not fit, the panel flips across the edge it would have overflowed — see
+	 * {@link hubDropdownPositions} for the chain and why it is ordered as it is.
+	 */
 	placement = input<HubDropdownPlacement>('bottom-start');
 	trigger = input<'click' | 'hover'>('click');
 	/**
@@ -87,7 +94,7 @@ export class HubDropdownDirective {
 	private _panelHover: Subscription | null = null;
 	/**
 	 * Everything open() subscribes to for this cycle only. take(1) retires each one when it
-	 * fires, but a dropdown closed by Escape, by a scroll or from code never fires them: they
+	 * fires, but a dropdown closed by Escape or from code never fires them: they
 	 * would survive holding the detached panel and close the NEXT panel on the first click
 	 * inside it, which is the very thing closeOnSelect: false is meant to prevent.
 	 */
@@ -134,7 +141,10 @@ export class HubDropdownDirective {
 		openDropdown?.close();
 		openDropdown = this;
 
-		const positionStrategy = this._overlay.position().flexibleConnectedTo(this._el).withPositions(this._buildPositions());
+		const positionStrategy = this._overlay
+			.position()
+			.flexibleConnectedTo(this._el)
+			.withPositions(hubDropdownPositions(this.placement(), this.offsetY()));
 
 		const panelClasses = ['hub-dropdown-overlay'];
 		if (this.panelClass()) panelClasses.push(this.panelClass());
@@ -166,12 +176,10 @@ export class HubDropdownDirective {
 		this.isOpen.set(true);
 		this.opened.emit();
 
-		// Close on scroll so the panel stays aligned with the trigger
-		this._openSubs.add(
-			fromEvent(this._document, 'scroll', { passive: true, capture: true })
-				.pipe(take(1), takeUntilDestroyed(this._destroyRef))
-				.subscribe(() => this.close())
-		);
+		// Nothing is registered for scroll here. Closing was how the panel used to stay aligned
+		// with its trigger, from before the overlay could follow one: it now re-applies the
+		// position strategy on scroll, on resize and whenever the trigger's own box moves, so
+		// the panel keeps up — and re-decides, each time, whether it still fits where it is.
 
 		// Click-outside detection (document-level). The overlay is mounted without a backdrop
 		// — nothing dims or blocks the page behind an open menu — so this listener is the only
@@ -198,7 +206,7 @@ export class HubDropdownDirective {
 	/** Close the dropdown and destroy the overlay. */
 	close(): void {
 		// Before the guard: a pending hover countdown outlives whatever closed the dropdown
-		// first (Escape, a scroll, a call from code), and would otherwise fire into the next
+		// first (Escape, a call from code), and would otherwise fire into the next
 		// open one.
 		this._stopHoverTracking();
 
@@ -269,24 +277,5 @@ export class HubDropdownDirective {
 		this._cancelScheduledClose();
 		this._panelHover?.unsubscribe();
 		this._panelHover = null;
-	}
-
-	/**
-	 * Translates HubDropdownPlacement tokens to ConnectionPosition arrays.
-	 * The OverlayPosition tries each entry in order, using the first that fits.
-	 */
-	private _buildPositions(): ConnectionPosition[] {
-		const o = this.offsetY();
-		const map: Record<HubDropdownPlacement, ConnectionPosition[]> = {
-			'bottom-start': [{ originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: o }],
-			bottom: [{ originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: o }],
-			'bottom-end': [{ originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: o }],
-			'top-start': [{ originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -o }],
-			top: [{ originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -o }],
-			'top-end': [{ originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetY: -o }],
-			start: [{ originX: 'start', originY: 'center', overlayX: 'end', overlayY: 'center', offsetX: -o }],
-			end: [{ originX: 'end', originY: 'center', overlayX: 'start', overlayY: 'center', offsetX: o }]
-		};
-		return map[this.placement()];
 	}
 }

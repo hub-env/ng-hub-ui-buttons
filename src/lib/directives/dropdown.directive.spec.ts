@@ -59,7 +59,7 @@ describe('HubDropdownDirective', () => {
 	});
 
 	/**
-	 * The panel closes on Escape, an outside click or a scroll — never on a backdrop, because
+	 * The panel closes on Escape or an outside click — never on a backdrop, because
 	 * there is none. The overlay is created without `hasBackdrop`, so nothing dims or blocks
 	 * the page behind an open menu. Pinned here because the READMEs and the documentation site
 	 * promised a backdrop close for eleven versions while the directive registered a handler

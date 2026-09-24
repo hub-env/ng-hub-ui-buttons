@@ -100,7 +100,7 @@ describe('dropdown closeOnSelect', () => {
 
 	/**
 	 * The listeners open() installs are retired by `take(1)`, which only fires on a click that
-	 * is genuinely outside. Closing any other way — Escape, a scroll, a call from code — used to
+	 * is genuinely outside. Closing any other way — Escape, a call from code — used to
 	 * leave them subscribed, still holding the panel that had just been detached. On the next
 	 * open, a click inside the NEW panel is not inside the OLD one, so the filter let it through
 	 * and closed the dropdown: `closeOnSelect: false` held for one cycle and no more.

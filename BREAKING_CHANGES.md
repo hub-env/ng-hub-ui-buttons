@@ -1,5 +1,23 @@
 # Breaking Changes
 
+## [22.14.0] - 2026-09-23
+
+### An open dropdown no longer closes on scroll
+
+- **Change**: `[hubDropdown]` used to close its panel on the first scroll anywhere on the page.
+  It now keeps the panel open and re-anchors it to the trigger instead, on scroll, on a window
+  resize and whenever the trigger moves for any other reason.
+
+- **Why**: closing was the only way to keep the panel glued to its trigger when this was written.
+  The overlay can follow an origin now, and closing a menu because something scrolled behind it
+  is not what a reader asked for. It also stood in the way of the flip this release adds: a panel
+  that must re-decide whether it still fits has to survive the scroll that changed the answer.
+
+- **Impact — an application that relied on the scroll to dismiss the menu has to dismiss it
+  itself.** Escape, a click outside and `close()` all still work, and `isOpen` is a two-way model,
+  so a consumer that wants the old behaviour closes on its own scroll listener. Nothing else in
+  the directive's shape changes: no input, output or method was added, removed or renamed.
+
 ## [22.13.0] - 2026-09-23
 
 ### Angular below 17.3.0 is no longer supported
