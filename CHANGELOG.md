@@ -1,5 +1,16 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.15.2] - 2026-10-05
+
+### Fixed
+
+- **A positioned `hub-fab` no longer jumps when it is hovered.** The hover wrote
+  `transform: translateY(-1px)`, which **replaced** the `transform` the centred placements
+  (`hub-fab-middle-start`, `hub-fab-middle-end`, `hub-fab-center`, and the `-center` ones)
+  use to centre themselves against the viewport — so as soon as the pointer was over the
+  button it dropped by half its height. The hover now uses the individual `translate`
+  property, which composes with `transform`: the lift stays and the centring holds.
+
 ## [22.15.1] - 2026-09-28
 
 ### Changed
