@@ -323,7 +323,7 @@ Todas las propiedades visuales son CSS custom properties con `:where()` (especif
 --hub-fab-shadow-hover: var(--hub-sys-shadow-lg, 0 1rem 3rem rgba(0, 0, 0, 0.175));
 --hub-fab-offset: var(--hub-ref-space-3, 1rem);
 --hub-fab-zindex: var(--hub-sys-zindex-fixed, 1030);
---hub-fab-transition: box-shadow 0.2s ease, transform 0.15s ease;
+--hub-fab-transition: box-shadow 0.2s ease, transform 0.15s ease, translate 0.15s ease;
 --hub-fab-extended-height: 3.5rem;
 --hub-fab-extended-radius: 1.75rem;
 --hub-fab-extended-padding-x: 1.25rem;
