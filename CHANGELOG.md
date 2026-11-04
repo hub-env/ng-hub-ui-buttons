@@ -1,5 +1,29 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.16.0] - 2026-11-04
+
+### Changed
+
+- **A medium button is as tall as a form field.** It measured 42 to 43px against a field's 38px,
+  so a select and the button that acts on it never lined up. The button now takes the field's own
+  arithmetic as a minimum height (one line of text, 0.375rem of padding and a 1px border on each
+  side, 38px by default), and its default `--hub-button-padding-y` drops to `0.25rem` so that the
+  minimum decides the height. A sum of paddings would have come out a pixel short: the button's
+  1.5px border is drawn 1px wide on a standard-density screen. Small, large and extra-large
+  buttons keep their sizes. See BREAKING_CHANGES.md.
+
+### Added
+
+- **`--hub-button-min-height` and `--hub-button-line-height`.** The line height used to be
+  inherited, so a page with a tighter one gave the button a different height on every screen.
+
+### Fixed
+
+- **The muted-text fallback is the accessible grey.** `hub-dropdown-header` wrote
+  `var(--hub-sys-text-muted, #6c757d)`; the value after the comma is now `#6a737b`, the grey
+  `ng-hub-ui-ds` moved to because `#6c757d` reads 4.44:1 on the elevated surface. It only paints
+  when the design system is not loaded.
+
 ## [22.15.2] - 2026-10-05
 
 ### Fixed

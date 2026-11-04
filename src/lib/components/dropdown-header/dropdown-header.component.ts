@@ -14,7 +14,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 				padding: 0.375rem var(--hub-dropdown-header-padding-x, var(--hub-ref-space-3, 1rem)) 0.1875rem;
 				font-size: var(--hub-dropdown-header-font-size, var(--hub-ref-font-size-xs, 0.75rem));
 				font-weight: var(--hub-ref-font-weight-bold, 700);
-				color: var(--hub-dropdown-header-color, var(--hub-sys-color-text-subtle, #6c757d));
+				color: var(--hub-dropdown-header-color, var(--hub-sys-color-text-subtle, #6a737b));
 				text-transform: uppercase;
 				letter-spacing: 0.06em;
 			}

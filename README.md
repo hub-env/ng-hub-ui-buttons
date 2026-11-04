@@ -288,10 +288,14 @@ All visual properties are CSS custom properties scoped with `:where()` (zero spe
 ```css
 /* Button */
 --hub-button-padding-x: var(--hub-ref-space-3, 1rem);
---hub-button-padding-y: var(--hub-ref-space-2, 0.5rem);
+--hub-button-padding-y: var(--hub-ref-space-1, 0.25rem);
 --hub-button-border-radius: var(--hub-sys-radius-md, 0.375rem);
 --hub-button-border-width: 1.5px;
 --hub-button-font-size: var(--hub-ref-font-size-base, 1rem);
+--hub-button-line-height: var(--hub-ref-line-height-base, 1.5);
+--hub-button-min-height: calc(
+	var(--hub-button-line-height) * var(--hub-button-font-size) + 2 * 0.375rem + 2 * var(--hub-ref-border-width, 1px)
+); /* a medium button stands as tall as a form field: 38px with the defaults; 0px on sm */
 --hub-button-font-weight: var(--hub-ref-font-weight-medium, 500);
 --hub-button-gap: var(--hub-ref-space-2, 0.5rem);
 --hub-button-transition: var(--hub-sys-transition-fast, all 0.15s ease-in-out);

@@ -1,5 +1,28 @@
 # Breaking Changes
 
+## [22.16.0] - 2026-11-04
+
+### A medium button is as tall as a form field
+
+- **Change**: a `md` button (the default size) gets a minimum height of
+  `--hub-button-min-height`, the arithmetic a form field is built to (one line of text, 0.375rem
+  of padding and a 1px border on each side), and its default `--hub-button-padding-y` drops from
+  `0.5rem` to `0.25rem` so that minimum decides the height. Its line height is set
+  (`--hub-button-line-height`, the design system's base) instead of inherited from the page.
+
+- **Why**: a field measures 38px and the button measured 42 to 43px, so a select and the
+  "Assign" button beside it never lined up, and every product that wanted them level had to raise
+  the field by hand.
+
+- **Impact**: every medium button is 4 to 5px shorter, 38px with the default tokens, on any
+  screen density. Its width, colours and text do not change. `sm`, `lg` and `xl` keep their
+  sizes. A button on a page with a line height other than 1.5 also stops following it.
+
+- **What happens if you do nothing**: nothing stops compiling; medium buttons come out at the
+  field's height. A layout tuned around the old 42px (a fixed-height toolbar, a field raised to
+  meet the button with `--hub-select-min-height`) may now leave a gap: drop the workaround, or set
+  `--hub-button-min-height` and `--hub-button-padding-y` back on that selector.
+
 ## [22.15.0] - 2026-09-24
 
 ### Every outline button's border takes the colour of its label
