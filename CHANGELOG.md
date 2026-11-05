@@ -1,5 +1,14 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.16.1] - 2026-11-05
+
+### Fixed
+
+- **A focused button draws its own ring.** `ng-hub-ui-buttons` had no `:focus-visible` style, so with the
+  keyboard, or when a modal focused it on opening, the browser painted its default blue outline on top of
+  the button's accent. The ring now comes from `--hub-sys-focus-ring-width` and `--hub-sys-focus-ring-color`,
+  as the form fields do.
+
 ## [22.16.0] - 2026-11-04
 
 ### Changed

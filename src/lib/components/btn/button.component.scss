@@ -103,6 +103,13 @@
 	pointer-events: none;
 }
 
+// The browser draws its own blue outline on a focused host, which clashes with every accent but
+// the default one. The ring follows the shared focus tokens instead, so a theme retunes it once.
+:host(:focus-visible) {
+	outline: 0;
+	box-shadow: 0 0 0 var(--hub-sys-focus-ring-width, 0.25rem) var(--hub-sys-focus-ring-color, rgba(13, 110, 253, 0.25));
+}
+
 // ── Size modifiers (every step resolves to the shared ff/ref scale) ───────
 :host(.hub-btn-sm) {
 	--hub-button-padding-x: var(--hub-ref-space-2, 0.5rem);
