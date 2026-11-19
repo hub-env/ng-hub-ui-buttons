@@ -1,5 +1,15 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.18.0] - 2026-11-19
+
+### Added
+
+- **Glass layer.** Under the `ng-hub-ui-ds` glass layer (an ancestor with `data-hub-glass` or `data-theme="glass"`), buttons and the dropdown panel read its values with opaque fallbacks, so nothing changes without the layer. `hub-btn` carries `hub-glass-surface` for every variant except `link`. `outline`, `soft` and `ghost` go translucent, `outline` gets a frosted veil at rest, `solid`, `outline` and `soft` take the gloss, the sheen and the light rim (the rim yields to `:focus-visible`), and `ghost` takes the gloss and sheen on hover. `solid` keeps its fill opaque and buttons never blur. The dropdown panel carries `hub-glass-surface` and takes the tint, sheen, blur and rim.
+
+### Changed
+
+- **`hub-btn-variant-rules` writes `background-color: color-mix(in srgb, <bg> var(--hub-btn-glass-opacity, 100%), transparent)`** at rest, on hover and when active, instead of the `background` shorthand. With `--hub-btn-glass-opacity` unset, the computed colour is identical to before. A consumer rule that relied on the mixin resetting `background-image` should set it itself.
+
 ## [22.17.0] - 2026-11-19
 
 ### Added

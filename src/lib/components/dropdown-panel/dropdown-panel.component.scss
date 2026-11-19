@@ -18,7 +18,11 @@
 	max-height: var(--hub-dropdown-panel-max-height);
 	overflow-y: auto;
 	padding-block: var(--hub-dropdown-panel-padding-y);
-	background: var(--hub-dropdown-panel-bg);
+	// Glass when an ancestor turns the layer on (ng-hub-ui-ds); opaque otherwise.
+	background-color: color-mix(in srgb, var(--hub-dropdown-panel-bg) var(--hub-sys-glass-opacity, 100%), transparent);
+	background-image: var(--hub-sys-glass-sheen, none);
+	-webkit-backdrop-filter: var(--hub-sys-glass-filter, none);
+	backdrop-filter: var(--hub-sys-glass-filter, none);
 	border: var(--hub-ref-border-width, 1px) solid var(--hub-dropdown-panel-border-color);
 	// Open-set accent on the top edge. Defaults to the neutral border colour, so an
 	// uncoloured panel is unchanged; the built-in `.hub-dropdown-panel-<type>` rules
@@ -26,7 +30,7 @@
 	// colour supplied through `[style.--hub-dropdown-panel-accent]` tints this edge.
 	border-top-color: var(--hub-dropdown-panel-accent, var(--hub-dropdown-panel-border-color));
 	border-radius: var(--hub-dropdown-panel-border-radius);
-	box-shadow: var(--hub-dropdown-panel-shadow);
+	box-shadow: var(--hub-sys-glass-rim, 0 0 #0000), var(--hub-dropdown-panel-shadow);
 	z-index: var(--hub-dropdown-panel-zindex);
 }
 

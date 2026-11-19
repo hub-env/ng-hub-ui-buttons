@@ -14,7 +14,7 @@ import { HubSemanticColor } from '../../models/button.types';
 	styleUrl: './dropdown-panel.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	host: {
-		class: 'hub-dropdown-panel',
+		class: 'hub-dropdown-panel hub-glass-surface',
 		'[class]': '_hostClass',
 		'[style.--hub-dropdown-panel-accent]': '_accent'
 	}

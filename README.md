@@ -311,6 +311,15 @@ A row of your own `hubButton`s that folds into a `⋮` menu when its parent row 
 
 Templates: `ng-template[hubButtonBarOptions]` (`HubButtonBarOptionsDirective`) and `ng-template[hubButtonBarMenu]` (`HubButtonBarMenuDirective`), both holding `hub-dropdown-item` / `hub-dropdown-divider`. A list built in code is a `@for` over buttons. Token: `--hub-button-bar-gap`.
 
+## Glass
+
+With the glass layer of `ng-hub-ui-ds` on (an ancestor with `data-hub-glass` or `data-theme="glass"`), buttons and the dropdown panel pick up its values. Without the layer nothing changes: every value is read with an opaque fallback. The layer itself comes from `ng-hub-ui-ds`.
+
+- `outline`, `soft` and `ghost` become translucent; `outline` gets a frosted veil at rest. `solid` keeps its opaque fill.
+- `solid`, `outline` and `soft` take a gloss, a sheen and a light rim (the rim gives way to the focus ring). `ghost` takes the gloss and sheen on hover. `link` is left out.
+- Buttons do not blur what is behind them. The dropdown panel does.
+- `provideHubGlassLight()` from `ng-hub-ui-utils` makes the sheen follow the pointer.
+
 ## CSS Customisation
 
 All visual properties are CSS custom properties scoped with `:where()` (zero specificity), so any consumer rule overrides them without `!important`.

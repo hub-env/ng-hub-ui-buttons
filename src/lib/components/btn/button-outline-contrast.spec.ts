@@ -331,7 +331,9 @@ describe('outline button border contrast', () => {
 		const solid = ruleBody(':host(.hub-btn-solid)');
 
 		expect(declared(outline, 'color')).toBe('var(--hub-btn-accent-emphasis)');
-		expect(declared(solid, 'background')).toBe('var(--hub-btn-accent)');
+		expect(declared(solid, 'background-color')).toBe(
+			'color-mix(in srgb, var(--hub-btn-accent) var(--hub-btn-glass-opacity, 100%), transparent)'
+		);
 		expect(declared(solid, 'color')).toBe('var(--hub-btn-accent-on)');
 	});
 });

@@ -86,7 +86,9 @@
 	$text-decoration: null,
 	$padding-inline: null
 ) {
-	background: $bg;
+	// `--hub-btn-glass-opacity` is set only by the appearances that turn to glass (outline, soft,
+	// ghost); everywhere else it is unset and the fill stays opaque.
+	background-color: color-mix(in srgb, #{$bg} var(--hub-btn-glass-opacity, 100%), transparent);
 	color: $color;
 	border-color: $border;
 
@@ -125,13 +127,13 @@
 	}
 
 	&:hover:not([disabled]):not(.hub-btn-disabled) {
-		background: var(--hub-btn-hover-bg);
+		background-color: color-mix(in srgb, var(--hub-btn-hover-bg) var(--hub-btn-glass-opacity, 100%), transparent);
 		border-color: var(--hub-btn-hover-border);
 		color: var(--hub-btn-hover-color);
 	}
 
 	&:active:not([disabled]):not(.hub-btn-disabled) {
-		background: var(--hub-btn-active-bg);
+		background-color: color-mix(in srgb, var(--hub-btn-active-bg) var(--hub-btn-glass-opacity, 100%), transparent);
 		border-color: var(--hub-btn-active-border);
 		color: var(--hub-btn-active-color);
 	}

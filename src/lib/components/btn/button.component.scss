@@ -223,6 +223,7 @@ $hub-btn-types: primary, secondary, success, danger, warning, info, neutral, lig
 // label asks 4.5:1, and a colour shared by both has to satisfy the stricter of the two.
 :host(.hub-btn-outline) {
 	@include hub-btn-variant-rules(
+		$bg: var(--hub-sys-glass-veil, transparent),
 		$border: var(--hub-btn-accent-emphasis),
 		$hover-border: var(--hub-btn-accent-emphasis),
 		$active-bg: color-mix(in oklch, var(--hub-btn-accent-subtle) 70%, var(--hub-btn-accent)),
@@ -245,6 +246,36 @@ $hub-btn-types: primary, secondary, success, danger, warning, info, neutral, lig
 		$active-bg: color-mix(in oklch, var(--hub-btn-accent-subtle) 80%, var(--hub-btn-accent)),
 		$active-color: var(--hub-btn-accent-emphasis)
 	);
+}
+
+// ── Glass (ng-hub-ui-ds glass layer) ──────────────────────────────────────
+// When an ancestor turns the layer on, every appearance but link takes the gloss (light caught on
+// the upper half), the light rim and the sheen that follows the pointer. Outline, soft and ghost
+// also go translucent, and outline gains a frosted veil at rest. Solid keeps its fill opaque: it is
+// the action the reader is meant to find first, and its label needs the full contrast of its accent.
+// No backdrop blur on a button: a row of them would mean a row of blurs for an effect too small
+// to see.
+:host(.hub-btn-outline),
+:host(.hub-btn-soft),
+:host(.hub-btn-ghost) {
+	--hub-btn-glass-opacity: var(--hub-sys-glass-opacity, 100%);
+}
+
+:host(.hub-btn-solid),
+:host(.hub-btn-outline),
+:host(.hub-btn-soft) {
+	background-image: var(--hub-sys-glass-gloss, none), var(--hub-sys-glass-sheen, none);
+}
+
+:host(.hub-btn-ghost:hover) {
+	background-image: var(--hub-sys-glass-gloss, none), var(--hub-sys-glass-sheen, none);
+}
+
+// The rim yields to the focus ring, which is drawn with box-shadow too.
+:host(.hub-btn-solid:not(:focus-visible)),
+:host(.hub-btn-outline:not(:focus-visible)),
+:host(.hub-btn-soft:not(:focus-visible)) {
+	box-shadow: var(--hub-sys-glass-rim, none);
 }
 
 :host(.hub-btn-link) {

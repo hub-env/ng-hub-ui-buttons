@@ -307,6 +307,15 @@ Una fila de tus propios `hubButton` que se recoge en un menú `⋮` cuando la fi
 
 Entradas: `minContentWidth` (`240`, píxeles que conserva el contenido contiguo, normalmente un título) y `moreLabel` (`'More actions'`, nombre accesible y tooltip del botón `⋮` y de la flecha). Plantillas: `ng-template[hubButtonBarOptions]` (`HubButtonBarOptionsDirective`) y `ng-template[hubButtonBarMenu]` (`HubButtonBarMenuDirective`), las dos con `hub-dropdown-item` / `hub-dropdown-divider`. Una lista montada en código es un `@for` de botones. Token: `--hub-button-bar-gap`.
 
+## Glass
+
+Con la capa glass de `ng-hub-ui-ds` activa (un ancestro con `data-hub-glass` o `data-theme="glass"`), los botones y el panel del dropdown toman sus valores. Sin la capa no cambia nada: cada valor se lee con un respaldo opaco. La capa en sí viene de `ng-hub-ui-ds`.
+
+- `outline`, `soft` y `ghost` se vuelven translúcidos; `outline` añade un velo esmerilado en reposo. `solid` mantiene su relleno opaco.
+- `solid`, `outline` y `soft` toman brillo, destello y un borde de luz (el borde cede ante el anillo de foco). `ghost` toma brillo y destello al pasar el cursor. `link` queda fuera.
+- Los botones no desenfocan lo que tienen detrás. El panel del dropdown sí.
+- `provideHubGlassLight()` de `ng-hub-ui-utils` hace que el destello siga al puntero.
+
 ## Personalización CSS
 
 Todas las propiedades visuales son CSS custom properties con `:where()` (especificidad cero), por lo que cualquier regla del consumidor las sobreescribe sin `!important`.

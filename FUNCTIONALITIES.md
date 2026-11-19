@@ -116,6 +116,16 @@ The package ships four families: the in-flow button (`hub-button` / `[hubButton]
 | **Cell**      | `hub-actions-cell` from a single `config: HubActionsCellConfig`              |       ❌        |
 | **Semantics** | A click on an action does not reach the surrounding row                      |       ❌        |
 
+## Glass
+
+| Category           | Functionality                                                                        | Example Covered |
+| :----------------- | :----------------------------------------------------------------------------------- | :-------------: |
+| **Buttons**        | `hub-glass-surface` on every variant except `link`                                   |       ❌        |
+|                    | `outline`, `soft`, `ghost` translucent; `outline` veil at rest; `solid` stays opaque |       ❌        |
+|                    | Gloss, sheen and rim (rim yields to `:focus-visible`)                                |       ❌        |
+|                    | `--hub-btn-glass-opacity` hook in `hub-btn-variant-rules`                            |       ❌        |
+| **Dropdown panel** | Glass surface with tint, sheen, blur and rim                                         |       ❌        |
+
 ## Styling
 
 | Category          | Functionality                                                                      | Example Covered |

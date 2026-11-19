@@ -99,6 +99,8 @@ export class HubButtonComponent {
 	protected get _hostClass(): string {
 		return [
 			`hub-btn-${this.variant()}`,
+			// Picks up the glass layer's values (ng-hub-ui-ds) on the appearances that use them.
+			this.variant() === 'link' ? '' : 'hub-glass-surface',
 			`hub-btn-${this.color()}`,
 			`hub-btn-${this.size()}`,
 			this.loading() ? 'hub-btn-loading' : '',
