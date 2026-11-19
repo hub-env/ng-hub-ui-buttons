@@ -282,6 +282,31 @@ acción dibujada dentro de una fila pulsable no dispara además la fila.
 
 ---
 
+### `HubButtonBarComponent` — `<hub-button-bar>`
+
+Una fila de tus propios `hubButton` que se recoge en un menú `⋮` cuando la fila de su contenedor se queda estrecha. La barra no añade significado a ningún botón: variante, color, icono, manejadores y enlaces se quedan como los escribiste. El primer botón `solid` es el principal y nunca se recoge; cuando la fila del contenedor mide menos que el grupo entero más `minContentWidth`, todos los demás pasan al menú en el orden escrito. Un botón recogido sigue en la página, oculto, y su entrada del menú lo pulsa, así que un `(click)`, un `href` o un `routerLink` funcionan igual desde el menú, y un botón deshabilitado o cargando también queda inerte ahí. La entrada toma el texto del botón, su primer icono `<i>` y, con `color="danger"`, el color de peligro. El cambio se anima con la Web Animations API y no se anima con `prefers-reduced-motion`.
+
+```html
+<hub-button-bar moreLabel="Más acciones">
+	<button hubButton (click)="create()"><i class="bi bi-plus-lg"></i> Nuevo</button>
+	<button hubButton variant="outline" color="neutral" (click)="export()">Exportar</button>
+	<a hubButton variant="ghost" color="neutral" routerLink="/informes">Informes</a>
+	<button hubButton variant="outline" color="danger" (click)="remove()">Eliminar</button>
+
+	<!-- Opciones del botón principal: una flecha cuando hay sitio, al principio del menú cuando no -->
+	<ng-template hubButtonBarOptions>
+		<hub-dropdown-item (itemClick)="import()">Importar</hub-dropdown-item>
+	</ng-template>
+
+	<!-- Siempre en el menú, después de los botones recogidos -->
+	<ng-template hubButtonBarMenu>
+		<hub-dropdown-item (itemClick)="archive()">Archivar</hub-dropdown-item>
+	</ng-template>
+</hub-button-bar>
+```
+
+Entradas: `minContentWidth` (`240`, píxeles que conserva el contenido contiguo, normalmente un título) y `moreLabel` (`'More actions'`, nombre accesible y tooltip del botón `⋮` y de la flecha). Plantillas: `ng-template[hubButtonBarOptions]` (`HubButtonBarOptionsDirective`) y `ng-template[hubButtonBarMenu]` (`HubButtonBarMenuDirective`), las dos con `hub-dropdown-item` / `hub-dropdown-divider`. Una lista montada en código es un `@for` de botones. Token: `--hub-button-bar-gap`.
+
 ## Personalización CSS
 
 Todas las propiedades visuales son CSS custom properties con `:where()` (especificidad cero), por lo que cualquier regla del consumidor las sobreescribe sin `!important`.

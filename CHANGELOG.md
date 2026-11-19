@@ -1,5 +1,20 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.17.0] - 2026-11-19
+
+### Added
+
+- **`hub-button-bar`.** A row of ordinary `hubButton`s that folds into a `⋮` menu when its parent row is
+  narrow. The bar adds no meaning to a button: variant, colour, icon, handlers and links stay as written.
+  The first `solid` button is the main one and never folds; every other button folds in the order
+  written. A folded button stays in the page, hidden, and its menu entry clicks it, so a `(click)`
+  handler, an `href` or a `routerLink` behaves the same from the menu, and a disabled or loading button
+  stays inert there. Options of the main button go in an `ng-template hubButtonBarOptions` (a caret
+  joined to it while wide, the head of the menu while narrow) and menu-only entries in an
+  `ng-template hubButtonBarMenu`. The bar folds by the width of its parent, not the viewport, and the
+  change is animated with the Web Animations API, skipped under `prefers-reduced-motion`. Inputs
+  `minContentWidth` and `moreLabel`; token `--hub-button-bar-gap`.
+
 ## [22.16.1] - 2026-11-05
 
 ### Fixed

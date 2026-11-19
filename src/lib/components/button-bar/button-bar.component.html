@@ -1,0 +1,71 @@
+<div #group class="hub-button-bar__group">
+	<ng-content />
+
+	@if (split()) {
+		<button
+			hubButton
+			variant="solid"
+			[color]="main()!.button.color()"
+			[size]="main()!.button.size()"
+			type="button"
+			class="hub-button-bar__caret hub-button-bar__icon-button"
+			placement="bottom-end"
+			[style.order]="caretOrder()"
+			[hubDropdown]="optionsPanel"
+			[disabled]="main()!.button.disabled()"
+			[attr.aria-label]="moreLabel()"
+		>
+			<svg class="hub-button-bar__icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+				<path d="M3.2 5.5 8 10.3l4.8-4.8-.9-.9L8 8.5 4.1 4.6z" />
+			</svg>
+		</button>
+	}
+
+	@if (hasMenu()) {
+		<button
+			hubButton
+			variant="soft"
+			color="neutral"
+			type="button"
+			class="hub-button-bar__more hub-button-bar__icon-button"
+			placement="bottom-end"
+			[hubDropdown]="menuPanel"
+			data-hub-button-bar-more
+			[attr.aria-label]="moreLabel()"
+			[hubTooltip]="moreLabel()"
+		>
+			<svg class="hub-button-bar__icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+				<circle cx="8" cy="3" r="1.4" />
+				<circle cx="8" cy="8" r="1.4" />
+				<circle cx="8" cy="13" r="1.4" />
+			</svg>
+		</button>
+	}
+</div>
+
+<ng-template #optionsPanel>
+	<hub-dropdown-panel>
+		<ng-container *ngTemplateOutlet="options()" />
+	</hub-dropdown-panel>
+</ng-template>
+
+<ng-template #menuPanel>
+	<hub-dropdown-panel>
+		@if (optionsInMenu()) {
+			<ng-container *ngTemplateOutlet="options()" />
+		}
+		@for (entry of folded(); track entry.id) {
+			<hub-dropdown-item
+				[color]="entry.button.color() === 'danger' ? 'danger' : 'default'"
+				[icon]="iconOf(entry)"
+				[disabled]="entry.button.disabled() || entry.button.loading()"
+				(itemClick)="activate(entry)"
+			>
+				{{ labelOf(entry) }}
+			</hub-dropdown-item>
+		}
+		@if (menu()) {
+			<ng-container *ngTemplateOutlet="menu()" />
+		}
+	</hub-dropdown-panel>
+</ng-template>

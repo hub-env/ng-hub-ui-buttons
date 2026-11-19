@@ -1,0 +1,51 @@
+// Unencapsulated (see the component): every rule is scoped under `.hub-button-bar`.
+:where(.hub-button-bar) {
+	--hub-button-bar-gap: var(--hub-ref-space-2, 0.5rem);
+}
+
+.hub-button-bar {
+	display: flex;
+	justify-content: flex-end;
+	margin-inline-start: auto;
+	min-width: 0;
+}
+
+.hub-button-bar__group {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--hub-button-bar-gap);
+	white-space: nowrap;
+}
+
+// A folded button stays in the DOM so its menu entry can click it.
+.hub-button-bar .hub-button-bar__folded {
+	display: none;
+}
+
+// The main button and its caret read as one split button.
+.hub-button-bar .hub-button-bar__split-main {
+	border-start-end-radius: 0;
+	border-end-end-radius: 0;
+}
+
+.hub-button-bar .hub-button-bar__caret {
+	border-start-start-radius: 0;
+	border-end-start-radius: 0;
+	margin-inline-start: calc(1px - var(--hub-button-bar-gap));
+}
+
+.hub-button-bar .hub-button-bar__more {
+	order: 999999;
+}
+
+.hub-button-bar__icon {
+	display: block;
+	width: 1em;
+	height: 1em;
+}
+
+// Square trigger: the minimum height of a button doubles as its width.
+.hub-button-bar .hub-button-bar__icon-button {
+	min-width: var(--hub-button-min-height, 2.375rem);
+	padding-inline: 0;
+}

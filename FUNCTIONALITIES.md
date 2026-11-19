@@ -96,6 +96,18 @@ The package ships four families: the in-flow button (`hub-button` / `[hubButton]
 | **Grouping**    | `hub-dropdown-header`                                                                                                  |       ✅        |
 |                 | `hub-dropdown-divider` (`role="separator"`)                                                                            |       ✅        |
 
+## Button bar (`hub-button-bar`)
+
+| Category    | Functionality                                                                                    | Example Covered |
+| :---------- | :----------------------------------------------------------------------------------------------- | :-------------: |
+| **Content** | Ordinary `hubButton` children (`button`, `a`, `hub-button`), kept exactly as written             |       ✅        |
+|             | Main button = first `solid` one; options in `ng-template[hubButtonBarOptions]` as a split caret  |       ✅        |
+|             | Menu-only entries in `ng-template[hubButtonBarMenu]`                                             |       ✅        |
+| **Folding** | Narrow (by parent width, `minContentWidth`): every button but the main folds into `⋮`, in order  |       ✅        |
+|             | A folded entry clicks its button: handlers, `href`, `target` and `routerLink` work from the menu |       ✅        |
+|             | Entry takes the button's text, first `<i>` icon, `danger` colour and disabled/loading state      |       ✅        |
+| **Motion**  | FLIP animation on fold/unfold, off under `prefers-reduced-motion` or without `animate()`         |       ✅        |
+
 ## Cross-library row actions
 
 | Category      | Functionality                                                                | Example Covered |

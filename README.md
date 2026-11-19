@@ -281,6 +281,36 @@ not also trigger the row.
 
 ---
 
+### `HubButtonBarComponent` — `<hub-button-bar>`
+
+A row of your own `hubButton`s that folds into a `⋮` menu when its parent row is too narrow. The bar adds no meaning to a button: variant, colour, icon, handlers and links stay exactly as you wrote them. The first `solid` button is the main one and never folds; when the parent row is narrower than the whole group plus `minContentWidth`, every other button folds into the menu, in the order written. A folded button stays in the page, hidden, and its menu entry clicks it, so a `(click)` handler, an `href` or a `routerLink` behaves the same from the menu, and a disabled or loading button stays inert there too. The entry takes the button's text, its first `<i>` icon and, for `color="danger"`, the danger colour. The change is animated with the Web Animations API and skipped under `prefers-reduced-motion`.
+
+```html
+<hub-button-bar moreLabel="More actions">
+	<button hubButton (click)="create()"><i class="bi bi-plus-lg"></i> New</button>
+	<button hubButton variant="outline" color="neutral" (click)="export()">Export</button>
+	<a hubButton variant="ghost" color="neutral" routerLink="/reports">Reports</a>
+	<button hubButton variant="outline" color="danger" (click)="remove()">Delete</button>
+
+	<!-- Options of the main button: a caret while wide, the head of the menu while narrow -->
+	<ng-template hubButtonBarOptions>
+		<hub-dropdown-item (itemClick)="import()">Import</hub-dropdown-item>
+	</ng-template>
+
+	<!-- Always in the menu, after the folded buttons -->
+	<ng-template hubButtonBarMenu>
+		<hub-dropdown-item (itemClick)="archive()">Archive</hub-dropdown-item>
+	</ng-template>
+</hub-button-bar>
+```
+
+| Input             | Type     | Default          | Description                                                                            |
+| ----------------- | -------- | ---------------- | -------------------------------------------------------------------------------------- |
+| `minContentWidth` | `number` | `240`            | Pixels the sibling content (usually a title) keeps before the buttons may take the row |
+| `moreLabel`       | `string` | `'More actions'` | Accessible name and tooltip of the `⋮` trigger and the split caret                     |
+
+Templates: `ng-template[hubButtonBarOptions]` (`HubButtonBarOptionsDirective`) and `ng-template[hubButtonBarMenu]` (`HubButtonBarMenuDirective`), both holding `hub-dropdown-item` / `hub-dropdown-divider`. A list built in code is a `@for` over buttons. Token: `--hub-button-bar-gap`.
+
 ## CSS Customisation
 
 All visual properties are CSS custom properties scoped with `:where()` (zero specificity), so any consumer rule overrides them without `!important`.

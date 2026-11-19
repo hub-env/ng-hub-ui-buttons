@@ -27,6 +27,7 @@ export * from './lib/components/dropdown-panel/dropdown-panel.component';
 export * from './lib/components/dropdown-item/dropdown-item.component';
 export * from './lib/components/dropdown-divider/dropdown-divider.component';
 export * from './lib/components/dropdown-header/dropdown-header.component';
+export * from './lib/components/button-bar/button-bar.component';
 
 // Directives
 export * from './lib/directives/dropdown.directive';
