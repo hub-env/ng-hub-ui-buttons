@@ -337,3 +337,45 @@ describe('outline button border contrast', () => {
 		expect(declared(solid, 'color')).toBe('var(--hub-btn-accent-on)');
 	});
 });
+
+/**
+ * The label of an outline, soft, ghost or link button is the emphasis ink, and it used to be
+ * capped at a fixed lightness written for a white page. On a dark theme that cap pushed the label
+ * down into the page: terminal's green measured about 2.9:1 on its black. The label now reads the
+ * same lightness window the theme publishes for ds, so a dark theme lifts it instead.
+ */
+describe('button label on a dark theme', () => {
+	/** The ds dark theme's window: a floor and no ceiling. */
+	const DARK_THEME = {
+		'--hub-sys-emphasis-lightness-min': '0.72',
+		'--hub-sys-emphasis-lightness-max': '1'
+	};
+
+	/** The elevated surface of the ds dark theme, where a card and its buttons sit. */
+	const DARK_SURFACE = '#1e1e1e';
+
+	/** WCAG 1.4.3 — the contrast body text needs. */
+	const TEXT_CONTRAST = 4.5;
+
+	afterEach(() => Object.assign(TOKENS, LIGHT_THEME));
+
+	it.each(Object.keys(ACCENTS))('keeps the %s label at 4.5:1 on the dark surface', (variant) => {
+		Object.assign(TOKENS, DARK_THEME);
+		overlay = VARIANT_TOKENS[variant] ?? {};
+		try {
+			const label = resolveColor('var(--hub-btn-accent-emphasis)', ACCENTS[variant]);
+
+			expect(contrastRatio(label, DARK_SURFACE)!).toBeGreaterThanOrEqual(TEXT_CONTRAST);
+		} finally {
+			overlay = {};
+		}
+	});
+
+	it('keeps the old ceiling when no theme publishes a window', () => {
+		const withLightTheme = resolveColor('var(--hub-btn-accent-emphasis)', ACCENTS['warning']);
+		delete TOKENS['--hub-sys-emphasis-lightness-min'];
+		delete TOKENS['--hub-sys-emphasis-lightness-max'];
+
+		expect(resolveColor('var(--hub-btn-accent-emphasis)', ACCENTS['warning'])).toBe(withLightTheme);
+	});
+});

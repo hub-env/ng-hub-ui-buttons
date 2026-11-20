@@ -1,5 +1,11 @@
 # ng-hub-ui-buttons Changelog
 
+## [22.18.1] - 2026-11-20
+
+### Fixed
+
+- **The label of `outline`, `soft`, `ghost` and `link` buttons is readable on dark themes.** Its lightness was capped at a fixed 0.45, which suits a white page and pushed the label into a dark one: on the terminal theme the green label measured about 2.9:1. It now reads the window the theme publishes in `ng-hub-ui-ds` (`--hub-sys-emphasis-lightness-min` / `-max`), the one the outline border already used, so a dark theme lifts it to at least 0.72. Light themes, and apps without ds, keep the 0.45 ceiling.
+
 ## [22.18.0] - 2026-11-19
 
 ### Added

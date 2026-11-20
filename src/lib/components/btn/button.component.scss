@@ -53,8 +53,16 @@
 	 * could reach the formula. `min(l, .45)` leaves a dark accent untouched and pulls a
 	 * light one down to where it can carry a letter, keeping hue and chroma. Matches the
 	 * `-emphasis` derivation in ng-hub-ui-ds, which had the same defect.
+	 *
+	 * A fixed ceiling, though, is written for ink on paper: on a dark theme it pushed the label
+	 * down into the page (terminal's green came out near 2.9:1 on its black). So the window is
+	 * the theme's, as in ds: a light theme keeps the 0.45 ceiling, a dark one sets a floor.
+	 * Without ds the fallbacks reproduce the old ceiling.
 	 */
-	--hub-btn-accent-emphasis: oklch(from var(--hub-btn-accent) min(l, 0.45) c h);
+	--hub-btn-accent-emphasis: oklch(
+		from var(--hub-btn-accent)
+			clamp(var(--hub-sys-emphasis-lightness-min, 0), l, var(--hub-sys-emphasis-lightness-max, 0.45)) c h
+	);
 	--hub-btn-accent-subtle: color-mix(in oklch, var(--hub-btn-accent) 12%, var(--hub-sys-surface-page, #ffffff));
 	// Contrast / on-color: grayscale flip driven by the accent's own lightness.
 	// Dark accents (L < .62) resolve to white text; light accents to near-black.
